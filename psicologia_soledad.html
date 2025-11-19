@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Soledad y Aislamiento - Evaluación</title>
+    <style>
+        :root {
+            /* Modo Claro */
+            --bg-primary: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%);
+            --bg-secondary: linear-gradient(135deg, #ffd89b 0%, #19547b 100%);
+            --bg-section: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            --bg-question: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            --bg-card: #ffffff;
+            --text-primary: #1a1a1a;
+            --text-secondary: #333333;
+            --accent-1: #ff6b6b;
+            --accent-2: #4ecdc4;
+            --accent-3: #ff8c42;
+            --accent-4: #00b4d8;
+            --border-color: #ff6b6b;
+            --highlight-bg: #fff3cd;
+            --highlight-text: #856404;
+            --shadow: rgba(0,0,0,0.1);
+            --shadow-strong: rgba(0,0,0,0.3);
+        }
+
+        [data-theme="dark"] {
+            /* Modo Oscuro */
+            --bg-primary: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+            --bg-secondary: linear-gradient(135deg, #1f4037 0%, #99f2c8 100%);
+            --bg-section: linear-gradient(135deg, #134e5e 0%, #71b280 100%);
+            --bg-question: linear-gradient(135deg, #fc4a1a 0%, #f7b733 100%);
+            --bg-card: #1e293b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --accent-1: #ff6b9d;
+            --accent-2: #00d9ff;
+            --accent-3: #ffa500;
+            --accent-4: #00f5d4;
+            --border-color: #00d9ff;
+            --highlight-bg: #ffa50033;
+            --highlight-text: #ffd700;
+            --shadow: rgba(0,0,0,0.3);
+            --shadow-strong: rgba(0,0,0,0.6);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-primary);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: var(--bg-card);
+            border: 3px solid var(--border-color);
+            border-radius: 50px;
+            padding: 12px 20px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px var(--shadow-strong);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px var(--shadow-strong);
+        }
+
+        .theme-icon {
+            font-size: 1.3em;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px var(--shadow-strong);
+            overflow: hidden;
+        }
+
+        .header {
+            background: var(--bg-secondary);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.95;
+        }
+
+        .content {
+            padding: 40px;
+            background: var(--bg-card);
+        }
+
+        .section {
+            margin-bottom: 50px;
+            background: var(--bg-section);
+            padding: 30px;
+            border-radius: 15px;
+            border-left: 5px solid var(--accent-1);
+        }
+
+        .section h2 {
+            color: var(--accent-1);
+            font-size: 2em;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section h3 {
+            color: var(--accent-4);
+            font-size: 1.5em;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            padding-left: 15px;
+            border-left: 3px solid var(--accent-2);
+        }
+
+        .caso {
+            background: var(--bg-card);
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px var(--shadow);
+        }
+
+        .caso h4 {
+            color: var(--accent-2);
+            font-size: 1.3em;
+            margin-bottom: 10px;
+        }
+
+        .caso p, .caso ul {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .caso ul {
+            padding-left: 25px;
+        }
+
+        .caso li {
+            margin-bottom: 8px;
+        }
+
+        .question-section {
+            background: var(--bg-question);
+            padding: 30px;
+            border-radius: 15px;
+            border-left: 5px solid var(--accent-3);
+            margin-bottom: 30px;
+        }
+
+        .question-section h2 {
+            color: var(--accent-3);
+        }
+
+        .answer {
+            background: var(--bg-card);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 15px;
+            box-shadow: 0 4px 6px var(--shadow);
+        }
+
+        .answer h4 {
+            color: var(--accent-2);
+            margin-bottom: 10px;
+        }
+
+        .answer p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        .answer ul {
+            color: var(--text-secondary);
+            padding-left: 25px;
+            line-height: 1.8;
+        }
+
+        .highlight {
+            background: var(--highlight-bg);
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+            color: var(--highlight-text);
+        }
+
+        .footer {
+            background: var(--bg-primary);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .footer h3 {
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .footer p {
+            font-size: 1.1em;
+            margin-bottom: 5px;
+        }
+
+        .icon {
+            font-size: 1.5em;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .section {
+                padding: 20px;
+            }
+
+            .theme-toggle {
+                top: 10px;
+                right: 10px;
+                padding: 10px 15px;
+                font-size: 0.9em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" onclick="toggleTheme()">
+        <span class="theme-icon" id="themeIcon">🌙</span>
+        <span id="themeText">Modo Oscuro</span>
+    </button>
+
+    <div class="container">
+        <div class="header">
+            <h1>🧠 Evaluación: Soledad y Aislamiento</h1>
+            <p>Psicología Social - Universidad Escuela Colombiana de Ingeniería Julio Garavito</p>
+        </div>
+
+        <div class="content">
+            <!-- PREGUNTA 1 -->
+            <div class="section">
+                <h2><span class="icon">📋</span> Pregunta 1: Caso de Estudio</h2>
+                
+                <div class="caso">
+                    <h4>Caso: Andrés, estudiante de Ingeniería de Sistemas</h4>
+                    
+                    <h3>👤 Contexto Personal, Familiar y Social</h3>
+                    <p><strong>Andrés</strong> es un estudiante de 22 años de séptimo semestre de Ingeniería de Sistemas. Llegó a Bogotá desde una ciudad pequeña de Boyacá para estudiar. Vive solo en un apartamento cerca de la universidad. Su familia está en su ciudad natal y solo puede visitarlos cada dos meses por cuestiones económicas.</p>
+                    
+                    <p>En el último año, tras una ruptura amorosa difícil y reprobar dos materias importantes, Andrés empezó a evitar las reuniones con sus compañeros de clase. Dejó de asistir a los grupos de estudio y comenzó a limitarse a ir solo a clases estrictamente necesarias. Sus padres notan que cuando llaman, las conversaciones son cada vez más cortas y él dice que "está bien, solo ocupado".</p>
+
+                    <h3>🔍 Síntomas y Signos Observables</h3>
+                    <ul>
+                        <li><strong>Aislamiento social:</strong> Evita reuniones sociales, rechaza invitaciones de compañeros y prefiere quedarse en casa programando solo.</li>
+                        <li><strong>Distanciamiento emocional:</strong> No comparte sus problemas con nadie, responde con monosílabos en chats grupales.</li>
+                        <li><strong>Cambios en rutinas:</strong> Pasa largas horas frente al computador, desordena su horario de sueño (duerme de día, trabaja de noche).</li>
+                        <li><strong>Expresiones verbales:</strong> Dice frases como "prefiero no complicarme con nadie", "la gente solo decepciona", "estoy mejor solo".</li>
+                        <li><strong>Sentimiento de vacío:</strong> Aunque está rodeado de compañeros en la universidad, se siente profundamente solo y desconectado.</li>
+                        <li><strong>Pérdida de interés:</strong> Ya no participa en los torneos de programación competitiva que antes le apasionaban.</li>
+                    </ul>
+
+                    <h3>🧩 Posibles Causas Psicológicas y Sociales</h3>
+                    <p><strong>Causas Psicológicas:</strong></p>
+                    <ul>
+                        <li><strong>Mecanismo de defensa:</strong> Después de la ruptura amorosa, Andrés desarrolló miedo al rechazo y decidió "protegerse" aislándose emocionalmente.</li>
+                        <li><strong>Baja autoestima:</strong> Reprobar materias afectó su confianza en sí mismo, siente que no es suficientemente bueno.</li>
+                        <li><strong>Depresión leve:</strong> Presenta síntomas iniciales de depresión (desinterés, apatía, alteración del sueño).</li>
+                    </ul>
+
+                    <p><strong>Causas Sociales:</strong></p>
+                    <ul>
+                        <li><strong>Desarraigo:</strong> Estar lejos de su familia y ciudad natal sin una red de apoyo cercana.</li>
+                        <li><strong>Presión académica:</strong> El ambiente competitivo de ingeniería genera estrés y comparación constante con otros.</li>
+                        <li><strong>Falta de vínculos profundos:</strong> No ha desarrollado amistades significativas en Bogotá, solo conocidos superficiales.</li>
+                        <li><strong>Estigma social:</strong> Percibe que pedir ayuda es "debilidad" en un entorno donde todos parecen tener todo bajo control.</li>
+                    </ul>
+
+                    <h3>⚠️ Consecuencias Identificables</h3>
+                    <ul>
+                        <li><strong>Rendimiento académico:</strong> Sus calificaciones continúan bajando por falta de motivación y apoyo de grupos de estudio.</li>
+                        <li><strong>Salud física:</strong> Mala alimentación (pide domicilios constantemente), sedentarismo, dolores de cabeza frecuentes.</li>
+                        <li><strong>Deterioro emocional:</strong> Aumento de pensamientos negativos, irritabilidad, sensación constante de vacío.</li>
+                        <li><strong>Pérdida de habilidades sociales:</strong> Cada vez le cuesta más iniciar conversaciones o mantener relaciones.</li>
+                        <li><strong>Riesgo futuro:</strong> Si continúa así, podría desarrollar depresión severa o ansiedad crónica, e incluso considerar abandonar la carrera.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- PREGUNTA 2 -->
+            <div class="question-section">
+                <h2><span class="icon">💭</span> Pregunta 2: Análisis y Discusión</h2>
+
+                <div class="answer">
+                    <h4>¿Qué factores sociales influyen en el surgimiento de la soledad/aislamiento?</h4>
+                    <p>Los principales factores sociales son: <span class="highlight">la migración o cambio de ciudad</span> (que rompe las redes sociales establecidas), <span class="highlight">la estructura familiar</span> (familias distantes o disfuncionales), <span class="highlight">el ritmo de vida acelerado</span> (que limita tiempo para socializar), <span class="highlight">la tecnología</span> (que puede generar conexiones superficiales), y <span class="highlight">eventos traumáticos sociales</span> (rechazo, bullying, rupturas). En contextos universitarios, la competitividad académica y la falta de espacios de integración genuina también son factores clave.</p>
+                </div>
+
+                <div class="answer">
+                    <h4>¿Cómo intervienen elementos como normas sociales, roles, redes de apoyo, vínculos y grupos?</h4>
+                    <p><strong>Normas sociales:</strong> Pueden estigmatizar pedir ayuda o mostrar vulnerabilidad (especialmente en carreras "duras" como ingeniería), lo que hace que las personas oculten su soledad.</p>
+                    
+                    <p><strong>Roles:</strong> Cuando alguien no cumple con roles esperados (ser exitoso académicamente, tener pareja, ser sociable), puede sentirse excluido y aislarse voluntariamente.</p>
+                    
+                    <p><strong>Redes de apoyo:</strong> Son cruciales para prevenir el aislamiento. La ausencia de familia cercana, amigos genuinos o mentores deja a la persona sin recursos para afrontar crisis.</p>
+                    
+                    <p><strong>Vínculos:</strong> Los vínculos superficiales (muchos conocidos, pocos amigos) no satisfacen necesidades emocionales profundas, generando soledad aun estando rodeado de gente.</p>
+                    
+                    <p><strong>Grupos:</strong> Los grupos de pertenencia (familia, amigos, equipos) generan identidad. Cuando alguien no se siente parte de ningún grupo o es rechazado, experimenta soledad social.</p>
+                </div>
+
+                <div class="answer">
+                    <h4>¿Qué variables sociales podrían agravar o disminuir el fenómeno?</h4>
+                    <p><strong>Variables que AGRAVAN:</strong></p>
+                    <ul>
+                        <li><span class="highlight">Exclusión social</span> o discriminación por características personales</li>
+                        <li><span class="highlight">Alta movilidad geográfica</span> sin establecer raíces</li>
+                        <li><span class="highlight">Entornos hipercompetitivos</span> donde prevalece el individualismo</li>
+                        <li><span class="highlight">Uso excesivo de redes sociales</span> que genera comparación y sensación de exclusión</li>
+                        <li><span class="highlight">Falta de espacios comunitarios</span> de encuentro y convivencia</li>
+                        <li><span class="highlight">Estigma hacia problemas de salud mental</span></li>
+                    </ul>
+
+                    <p><strong>Variables que DISMINUYEN:</strong></p>
+                    <ul>
+                        <li><span class="highlight">Redes de apoyo sólidas</span> (familia, amigos cercanos, grupos de pertenencia)</li>
+                        <li><span class="highlight">Espacios de integración</span> (clubes, actividades extracurriculares, voluntariados)</li>
+                        <li><span class="highlight">Cultura de apoyo mutuo</span> y normalización de pedir ayuda</li>
+                        <li><span class="highlight">Acceso a servicios de salud mental</span> sin estigma</li>
+                        <li><span class="highlight">Comunidades inclusivas</span> que valoran la diversidad</li>
+                        <li><span class="highlight">Programas de acompañamiento</span> (mentorías, grupos de apoyo)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <h3>👥 Integrantes</h3>
+            <p>Andersson David Sánchez Méndez</p>
+            <p>Cristian Santiago Pedraza Rodríguez</p>
+            <p style="margin-top: 20px; font-size: 0.9em; opacity: 0.9;">Universidad Escuela Colombiana de Ingeniería Julio Garavito</p>
+            <p style="font-size: 0.9em; opacity: 0.9;">Psicología Social - 2025</p>
+        </div>
+    </div>
+
+    <script>
+        // Cargar tema guardado
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        updateThemeButton(savedTheme);
+
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeButton(newTheme);
+        }
+
+        function updateThemeButton(theme) {
+            const icon = document.getElementById('themeIcon');
+            const text = document.getElementById('themeText');
+            
+            if (theme === 'dark') {
+                icon.textContent = '☀️';
+                text.textContent = 'Modo Claro';
+            } else {
+                icon.textContent = '🌙';
+                text.textContent = 'Modo Oscuro';
+            }
+        }
+    </script>
+</body>
+</html>
